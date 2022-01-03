@@ -1,34 +1,23 @@
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
-
-app.MapPost("/todoitems", async (Todo todo, TodoDb db) =>
+app.MapPost("/upload",
+async Task<IResult>(HttpRequest request) =>
 {
-    db.Todos.Add(todo);
-    await db.SaveChangesAsync();
+    if (!request.HasFormContentType)
+        return Results.BadRequest();
 
-    return Results.Created($"/todoitems/{todo.Id}", todo);
+    var form = await request.ReadFormAsync();
+    var formFile = form.Files["Data"];
+
+    if (formFile is null || formFile.Length == 0)
+        return Results.BadRequest();
+
+    await using var stream = formFile.OpenReadStream();
+
+    var reader = new StreamReader(stream);
+    var text = await reader.ReadToEndAsync();
+
+    return Results.Ok(text);
 });
-
-
 app.Run();
-
-class Todo
-{
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public bool IsComplete { get; set; }
-}
-
-class TodoDb : DbContext
-{
-    public TodoDb(DbContextOptions<TodoDb> options)
-        : base(options) { }
-
-    public DbSet<Todo> Todos => Set<Todo>();
-}

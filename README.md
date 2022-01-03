@@ -5,3 +5,4 @@
 # References
 
 - https://docs.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-6.0&tabs=visual-studio-code
+- https://gsferreira.com/archive/2021/uploading-files-with-aspnet-minimal-apis/
