@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "MbspKLvG1oxGOSrH8gTE9fQmmOQxQJHK8BlW/cD5OhE=",
+  "Source": "read-file",
+  "BasePath": "_content/read-file",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
